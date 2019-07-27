@@ -1,0 +1,105 @@
+{
+  "name": "apiz-legacy",
+  "version": "0.1.0",
+  "description": "apiz legacy",
+  "main": "dist/apiz.cjs.js",
+  "module": "dist/apiz.esm.js",
+  "browser": "dist/apiz.umd.js",
+  "sideEffects": false,
+  "types": "types/todo.d.ts",
+  "typings": "types/todo.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "prebuild": "rimraf dist types",
+    "build-dev": "rollup -c rollup.dev.js",
+    "start": "concurrently \"rollup -w -c rollup.dev.js\" \"pock\" \"opn http://127.0.0.1:8080\"",
+    "lint": "tslint -p tsconfig.json && eslint src test",
+    "format": "prettier --config .prettierrc.js --write {src,test}/**/*.{js,ts}",
+    "inspect": "jsinspect src",
+    "test": "tsc --outDir test_cache && nyc ava -v",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "report": "nyc report --reporter=html",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ta7sudan/apiz-legacy.git"
+  },
+  "keywords": [
+    "apiz"
+  ],
+  "author": "ta7sudan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ta7sudan/apiz-legacy/issues"
+  },
+  "files": [
+    "src",
+    "man",
+    "dist",
+    "example",
+    "types"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run build && npm run build-dev && git add ."
+    }
+  },
+  "ava": {
+    "cache": true,
+    "require": [
+      "./test/_register",
+      "@babel/polyfill"
+    ]
+  },
+  "nyc": {
+    "cache": true,
+    "include": [
+      "test_cache/**/*.js"
+    ]
+  },
+  "homepage": "https://github.com/ta7sudan/apiz-legacy#readme",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 9"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/polyfill": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/register": "^7.4.0",
+    "ava": "^2.1.0",
+    "babel-plugin-array-includes": "^2.0.3",
+    "codecov": "^3.5.0",
+    "concurrently": "^4.1.0",
+    "conventional-changelog-cli": "^2.0.21",
+    "cz-conventional-changelog": "^2.1.0",
+    "eslint": "^6.0.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^3.0.0",
+    "jsinspect": "^0.12.7",
+    "lint-staged": "^9.1.0",
+    "nyc": "^14.1.1",
+    "opn-cli": "^4.0.0",
+    "pock": "^0.3.3",
+    "prettier": "^1.18.2",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.7.4",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-replace": "^2.1.1",,
+    "rollup-plugin-uglify": "^6.0.2",
+    "rollup-plugin-typescript2": "^0.20.1",
+    "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "tslib": "^1.10.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
