@@ -1,4 +1,2 @@
-interface todo {
-}
-
-export function todo(options: number): string;
+export * from './core';
+//# sourceMappingURL=index.d.ts.map

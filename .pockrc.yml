@@ -2,5 +2,5 @@ dirs: ./example/router
 static:
   root: ./example
 watch: true
-cors: true
+cors: false
 port: 8080

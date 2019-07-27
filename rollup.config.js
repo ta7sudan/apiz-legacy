@@ -37,7 +37,6 @@ export default [
 				extensions: ['.js', '.ts']
 			})
 		],
-		external: ['todo'],
 		treeshake: {
 			propertyReadSideEffects: false
 		},
@@ -51,10 +50,7 @@ export default [
 				name,
 				file: browser,
 				format: 'umd',
-				sourcemap: true,
-				globals: {
-					todo: 'todo'
-				}
+				sourcemap: true
 			}
 		]
 	},
@@ -82,29 +78,52 @@ export default [
 				}
 			})
 		],
-		external: ['todo'],
 		treeshake: {
 			propertyReadSideEffects: false
 		},
-		output: [
-			{
-				name,
-				banner,
-				file: 'dist/apiz.min.js',
-				format: 'umd',
-				sourcemap: true,
-				// sourcemap生成之后在devtools本来看到的文件是src/index.js, 这个选项可以变成apiz.js
-				sourcemapPathTransform: path => ~path.indexOf('index') ? 'apiz.js' : relative('src', path),
-				globals: {
-					todo: 'todo'
+		output: {
+			name,
+			banner,
+			file: 'dist/apiz.min.js',
+			format: 'umd',
+			sourcemap: true,
+			// sourcemap生成之后在devtools本来看到的文件是src/index.js, 这个选项可以变成apiz.js
+			sourcemapPathTransform: path => (~path.indexOf('index') ? 'apiz.js' : relative('src', path))
+		}
+	},
+	{
+		input: 'src/index.ts',
+		plugins: [
+			typescript({
+				tsconfig: 'tsconfig.json',
+				useTsconfigDeclarationDir: true
+			}),
+			replace({
+				DEBUG: JSON.stringify(false)
+			}),
+			babel({
+				exclude: 'node_modules/**',
+				extensions: ['.js', '.ts']
+			}),
+			uglify({
+				compress: {
+					/* eslint-disable-next-line */
+					pure_getters: true
+				},
+				output: {
+					comments: /@Version|@Author|@Repo|@License/i
 				}
-			},
-			{
-				banner,
-				file: main,
-				format: 'cjs',
-				sourcemap: true
-			}
-		]
+			})
+		],
+		treeshake: {
+			propertyReadSideEffects: false
+		},
+		output: {
+			banner,
+			file: main,
+			format: 'cjs',
+			sourcemap: true
+		}
 	}
 ];
+

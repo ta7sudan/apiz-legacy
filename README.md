@@ -1,2 +1,2 @@
 # apiz-legacy
-A library template for dulu
+兼容版 apiz-ng.
